@@ -7,17 +7,16 @@ part of 'user.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      json['email'] as String,
+      json['lastAnsQuesRef'] as String?,
       _$JsonConverterFromJson<int, Duration>(
           json['duration'], const DurationMillisConverter().fromJson),
       json['streak'] as num? ?? 0,
       json['correctAns'] as num? ?? 0,
       json['totalAns'] as num? ?? 0,
-    )..id = json['id'] as String?;
+    );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'email': instance.email,
-      'id': instance.id,
+      'lastAnsQuesRef': instance.lastAnsQuesRef,
       'duration': _$JsonConverterToJson<int, Duration>(
           instance.duration, const DurationMillisConverter().toJson),
       'streak': instance.streak,

@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:focus_test/helpers/const.dart';
 import 'package:focus_test/pages/home/home.dart';
 import 'package:focus_test/pages/login/login.dart';
 import 'package:focus_test/pages/login/user.dart';
@@ -23,6 +24,7 @@ enum RouteNames {
   Future navigate(BuildContext context, [dynamic arguments]) async {
     GoRouter.of(context).pushNamed(name, extra: arguments);
   }
+
   Future replaceRoute(BuildContext context) async {
     GoRouter.of(context).pushReplacementNamed(name);
   }
@@ -47,7 +49,7 @@ class RouteConfig {
         builder: (context, state) => MultiProvider(providers: [
           Provider(
               create: (_) => FirebaseFirestore.instance
-                  .collection('questionSet')
+                  .collection(Constants.faQuestionSet)
                   .withConverter(
                     fromFirestore: (snapshot, _) =>
                         Question.fromJson(snapshot.data()!),
@@ -55,10 +57,12 @@ class RouteConfig {
                   )),
           StreamProvider(
               create: (_) => FirebaseFirestore.instance
-                  .collection('questionSet')
+                  .collection(Constants.faQuestionSet)
                   .snapshots(),
               initialData: null),
-          ChangeNotifierProvider(create: (_) => HomeProvider()),
+          ChangeNotifierProvider(
+              create: (context) =>
+                  HomeProvider(context.read(), context.read())),
         ], child: const HomePage()),
       ),
       GoRoute(
@@ -68,17 +72,18 @@ class RouteConfig {
           providers: [
             Provider(
                 create: (_) => FirebaseFirestore.instance
-                    .collection('users')
+                    .collection(Constants.faUsers)
                     .withConverter(
                       fromFirestore: (snapshot, _) =>
-                          User.fromJson(snapshot.data()!..['id'] = snapshot.id),
+                          User.fromJson(snapshot.data()!),
+                      // User.fromJson(snapshot.data()!..['id'] = snapshot.id),
                       toFirestore: (user, _) => user.toJson(),
                     )),
+
             /// [ChangeNotifierProvider] context, was passed above
             ChangeNotifierProvider(
-                create: (context) => LoginProvider(
-                    context.read<SharedPreferencesImpl>(),
-                    context.read<CollectionReference<User>>()))
+                create: (context) =>
+                    LoginProvider(context.read(), context.read()))
           ],
           child: const Login(),
         ),

@@ -17,6 +17,9 @@ class SharedPreferencesImpl {
 
   bool get isLoggedIn => (_pref.get(Constants.user) != null);
 
+
+  String? getLastQuestionRef() => _pref.getString(Constants.lastAnsQuesRef);
+
   Future<bool> loginUser(String email, String password,
       final CollectionReference<User> userRef) async {
     final res = await FirebaseAuth.instance
@@ -30,8 +33,8 @@ class SharedPreferencesImpl {
               .signInWithEmailAndPassword(email: email, password: password)
               .then((value) => value.user)
               .onError((error, stackTrace) {
-                logit(error);
-                return null;
+            logit(error);
+            return null;
           });
         }
         if (msg != null) {
@@ -42,17 +45,18 @@ class SharedPreferencesImpl {
     });
     logit("Signed up $res");
     if (res != null) {
-      final u = User(email);
+      final u = User();
       try {
-        final ref = (await userRef.where('email', isEqualTo: u.email).limit(1).get())
-                .docs
-                .firstOrNull()
-                ?.reference ??
+        final ref = (await userRef.where('email', isEqualTo: email)
+            .limit(1)
+            .get())
+            .docs
+            .firstOrNull()
+            ?.reference ??
             await userRef.add(u);
-        u.id = ref.id;
         // await ref.set(u);
         logit('Saved ${u.toJson()}');
-        _pref.setString(Constants.user, jsonEncode(u));
+        _pref.setString(Constants.user, ref.id);
         return true;
       } catch (e) {
         logit(e);

@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:focus_test/helpers/const.dart';
+import 'package:focus_test/pages/home/question.dart';
+import 'package:focus_test/pages/pref/shared_pref_impl.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/logger.dart';
@@ -13,6 +16,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeProvider read = context.read();
     return Scaffold(
       body: Column(
         children: [
@@ -21,7 +25,7 @@ class HomePage extends StatelessWidget {
               builder: (context) =>
                   Text('${context.select((HomeProvider value) => value.c)}')),
           ElevatedButton(
-              onPressed: context.read<HomeProvider>().update,
+              onPressed: read.update,
               child: const Text('child')),
           // Expanded(
           //     child: Builder(
