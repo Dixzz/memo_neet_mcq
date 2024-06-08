@@ -16,7 +16,7 @@ class Statusbar extends StatelessWidget {
     return Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top));
   }
 }
-void logit(dynamic value) {
+void logit([dynamic value]) {
   var frame = Trace.from(StackTrace.current).terse.frames;
   var trace = frame.getOrNull(1) ?? frame.firstOrNull();
 

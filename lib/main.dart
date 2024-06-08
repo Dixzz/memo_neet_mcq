@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:focus_test/helpers/colors.dart' show generateMaterialColor;
-import 'package:focus_test/helpers/logger.dart';
-import 'package:focus_test/pages/home/home.dart';
-import 'package:focus_test/pages/home/provider.dart';
+import 'package:focus_test/gen/colors.gen.dart';
 import 'package:focus_test/pages/pref/shared_pref_impl.dart';
+import 'package:focus_test/router.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,14 +14,8 @@ void main() async {
     SharedPreferences.getInstance(),
   ]);
 
-  runApp(Provider(
-      create: (_) => SharedPreferencesImpl(res[1] as SharedPreferences),
-      child: const MyApp()));
-  // faEventColRef = collectionRef.withConverter<Event>(
-  //   fromFirestore: (snapshot, _) =>
-  //       Event.fromJson(snapshot.data()!..['id'] = snapshot.id),
-  //   toFirestore: (user, _) => user.toJson(),
-  // );
+  final pref = SharedPreferencesImpl(res[1] as SharedPreferences);
+  runApp(Provider(create: (_) => pref, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -32,27 +23,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logit('${context.read<SharedPreferencesImpl>()}');
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Focus',
       debugShowCheckedModeBanner: false,
+      routerConfig: RouteConfig.router,
       theme: ThemeData(
         useMaterial3: false,
-        textTheme: GoogleFonts.comboTextTheme(
+        textTheme: GoogleFonts.poppinsTextTheme(
             // openSansTextTheme
             // Theme.of(context).textTheme.apply(
             // bodyColor: AppColors.mainTextColor3,
             // ),
             ),
-        primarySwatch: generateMaterialColor(const Color(0xFF9DE1AA)),
+        primarySwatch: ColorName.blue,
       ),
-      home: MultiProvider(providers: [
-        StreamProvider(
-            create: (_) =>
-                FirebaseFirestore.instance.collection('events').snapshots(),
-            initialData: null),
-        ChangeNotifierProvider(create: (_) => HomeProvider()),
-      ], child: const HomePage()),
     );
   }
 }
