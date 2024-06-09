@@ -79,7 +79,7 @@ class LoginProvider extends ChangeNotifier {
       _smartAuth.saveCredential(
           id: Constants.accType, name: email, password: pass);
       if (context.mounted) {
-        RouteNames.home.replaceRoute(context);
+        RouteNames.root.replaceRoute(context);
       }
     }
   }

@@ -24,19 +24,21 @@ class $AssetsImagesGen {
   SvgGenImage get icArrowRight =>
       const SvgGenImage('assets/images/ic_arrow_right.svg');
 
+  /// File path: assets/images/ic_back.svg
+  SvgGenImage get icBack => const SvgGenImage('assets/images/ic_back.svg');
+
   /// File path: assets/images/ic_eye.svg
   SvgGenImage get icEye => const SvgGenImage('assets/images/ic_eye.svg');
 
   /// File path: assets/images/ic_eye_off.svg
   SvgGenImage get icEyeOff => const SvgGenImage('assets/images/ic_eye_off.svg');
 
-
   /// File path: assets/images/wrong.json
   String get wrong => 'assets/images/wrong.json';
 
   /// List of all assets
   List<dynamic> get values =>
-      [bg, confetti, icArrowRight, icEye, icEyeOff, wrong];
+      [bg, confetti, icArrowRight, icBack, icEye, icEyeOff, wrong];
 }
 
 class Assets {

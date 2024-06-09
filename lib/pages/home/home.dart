@@ -10,6 +10,8 @@ import 'package:focus_test/helpers/sized_box.dart';
 import 'package:focus_test/pages/home/question.dart';
 import 'package:focus_test/pages/login/user.dart';
 import 'package:focus_test/pages/pref/shared_pref_impl.dart';
+import 'package:focus_test/router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -27,12 +29,20 @@ class HomePage extends StatelessWidget {
     final HomeProvider read = context.read();
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      bottomNavigationBar: BottomNavigationBar(onTap: (i) {
+        if (i == 1) {
+          RouteNames.profile.navigate(context);
+        }
+      },items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Avatar'),
+      ]),
       body: Stack(
         fit: StackFit.expand,
         children: [
           Assets.images.bg.image(
-              fit: BoxFit.fitHeight, opacity: const AlwaysStoppedAnimation(.2)),
+              fit: BoxFit.fitHeight,
+              opacity: const AlwaysStoppedAnimation(.2)),
           Positioned(
             top: 0,
             bottom: 0,
@@ -44,17 +54,16 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    InkWell(
-                      onTap: read.fetchQuestion,
-                      child: const DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24)),
+                      child: InkWell(
+                        onTap: read.fetchQuestion,
+                        child: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.refresh_outlined,
+                            size: 24,
                           ),
                         ),
                       ),
@@ -72,13 +81,12 @@ class HomePage extends StatelessWidget {
                             ? Column(
                                 children: [
                                   ch!,
-                                  CountdownTimer(
-                                    controller: w
-                                  ),
+                                  CountdownTimer(controller: w),
                                 ],
                               )
                             : const SizedBox.shrink(),
-                        selector: (_, HomeProvider selector) => selector.ct),
+                        selector: (_, HomeProvider selector) =>
+                            selector.ct),
                     Stack(
                       alignment: Alignment.topCenter,
                       // fit: StackFit.expand,
@@ -98,28 +106,35 @@ class HomePage extends StatelessWidget {
                                   ? Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.all(12.0),
+                                          padding:
+                                              const EdgeInsets.all(12.0),
                                           child: DecoratedBox(
                                             decoration: BoxDecoration(
-                                                color:
-                                                    Colors.white.withAlpha(100),
-                                                border: Border.all(width: .2),
+                                                color: Colors.white
+                                                    .withAlpha(100),
+                                                border:
+                                                    Border.all(width: .2),
                                                 borderRadius:
-                                                    BorderRadius.circular(32)),
+                                                    BorderRadius.circular(
+                                                        32)),
                                             child: Padding(
                                               padding:
-                                                  const EdgeInsets.all(24.0),
+                                                  const EdgeInsets.all(
+                                                      24.0),
                                               child: Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    MainAxisAlignment
+                                                        .center,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                    CrossAxisAlignment
+                                                        .center,
                                                 children: [
                                                   Text(
                                                     w.text,
-                                                    textAlign: TextAlign.center,
-                                                    style:
-                                                        GoogleFonts.comfortaa(
+                                                    textAlign:
+                                                        TextAlign.center,
+                                                    style: GoogleFonts
+                                                        .comfortaa(
                                                             fontSize: 22,
                                                             fontWeight:
                                                                 FontWeight
@@ -127,57 +142,53 @@ class HomePage extends StatelessWidget {
                                                   ),
                                                   const SpaceVertical(24),
                                                   Wrap(
-                                                    direction: Axis.vertical,
+                                                    direction:
+                                                        Axis.vertical,
                                                     spacing: 12,
                                                     runAlignment:
-                                                        WrapAlignment.center,
+                                                        WrapAlignment
+                                                            .center,
                                                     crossAxisAlignment:
                                                         WrapCrossAlignment
                                                             .center,
                                                     children: w.choic.keys
-                                                        .map((e) => Selector(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      10,
-                                                                  vertical: 8),
-                                                              child: InkWell(
-                                                                onTap: () {
-                                                                  read.updateChoice(
-                                                                      e);
-                                                                },
-                                                                child: Text(
-                                                                    '${String.fromCharCode(asciiStart++)}. $e'),
-                                                              ),
-                                                            ),
-                                                            builder: (_, w,
-                                                                    ch) =>
-                                                                DecoratedBox(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    border: w ==
-                                                                            e
-                                                                        ? Border.all(
-                                                                            width:
-                                                                                1.5,
-                                                                            color:
-                                                                                ColorName.blue)
-                                                                        : null,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            12),
-                                                                    color: ColorName
-                                                                        .blue
-                                                                        .shade100,
+                                                        .map((e) =>
+                                                            Selector(
+                                                                child:
+                                                                    Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal:
+                                                                          10,
+                                                                      vertical:
+                                                                          8),
+                                                                  child:
+                                                                      InkWell(
+                                                                    onTap:
+                                                                        () {
+                                                                      read.updateChoice(e);
+                                                                    },
+                                                                    child:
+                                                                        Text('${String.fromCharCode(asciiStart++)}. $e'),
                                                                   ),
-                                                                  child: ch,
                                                                 ),
-                                                            selector: (_,
-                                                                    HomeProvider
-                                                                        selector) =>
-                                                                selector
-                                                                    .currentChoice))
+                                                                builder: (_,
+                                                                        w,
+                                                                        ch) =>
+                                                                    DecoratedBox(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        border: w == e ? Border.all(width: 1.5, color: ColorName.blue) : null,
+                                                                        borderRadius: BorderRadius.circular(12),
+                                                                        color: ColorName.blue.shade100,
+                                                                      ),
+                                                                      child:
+                                                                          ch,
+                                                                    ),
+                                                                selector: (_,
+                                                                        HomeProvider
+                                                                            selector) =>
+                                                                    selector
+                                                                        .currentChoice))
                                                         .toImmutableList(),
                                                   ),
                                                 ],
@@ -202,10 +213,14 @@ class HomePage extends StatelessWidget {
                                 builder: (_, w, __) => w == null
                                     ? const SizedBox.shrink()
                                     : w
-                                        ? Lottie.asset(Assets.images.confetti,
-                                            animate: true, fit: BoxFit.contain)
-                                        : Lottie.asset(Assets.images.wrong,
-                                            animate: true, fit: BoxFit.contain),
+                                        ? Lottie.asset(
+                                            Assets.images.confetti,
+                                            animate: true,
+                                            fit: BoxFit.contain)
+                                        : Lottie.asset(
+                                            Assets.images.wrong,
+                                            animate: true,
+                                            fit: BoxFit.contain),
                                 selector: (_, HomeProvider sel) =>
                                     sel.isCorrect),
                           ),
