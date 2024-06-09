@@ -8,4 +8,6 @@ class Constants {
   static const faUsers = 'users';
 
   static const lastAnsQuesRef = 'lastAnsQuesRef';
+  static const lastQuesRef = 'lastQuesRef';
+  static const lastAnsQuesDateTime = 'lastAnsQuesDateTime';
 }

@@ -9,6 +9,7 @@ part of 'question.dart';
 Question _$QuestionFromJson(Map<String, dynamic> json) => Question(
       json['text'] as String,
       Map<String, bool>.from(json['choic'] as Map),
+      json['id'] as String,
     );
 
 Map<String, dynamic> _$QuestionToJson(Question instance) => <String, dynamic>{

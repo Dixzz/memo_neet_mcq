@@ -9,6 +9,7 @@ import 'package:focus_test/helpers/const.dart';
 import 'package:focus_test/helpers/context_extensions.dart';
 import 'package:focus_test/helpers/logger.dart';
 import 'package:focus_test/helpers/sized_box.dart';
+import 'package:focus_test/pages/home/question.dart';
 import 'package:focus_test/pages/login/user.dart';
 import 'package:focus_test/pages/pref/shared_pref_impl.dart';
 import 'package:focus_test/router.dart';
@@ -52,7 +53,7 @@ class _ColorCyclerState extends State<ColorCycler>
         'Focus',
         textAlign: TextAlign.left,
         style: GoogleFonts.comfortaa(
-          fontSize: 24,
+          fontSize: 30,
           fontWeight: FontWeight.w900,
         ),
       ),
@@ -79,7 +80,7 @@ class _ColorCyclerState extends State<ColorCycler>
         AnimationController(duration: const Duration(seconds: 20), vsync: this);
 
     animation = Tween<double>(
-        begin: _rb.rangeStart.toDouble(), end: _rb.rangeEnd.toDouble())
+            begin: _rb.rangeStart.toDouble(), end: _rb.rangeEnd.toDouble())
         .animate(controller)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -131,7 +132,7 @@ class Login extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children:  <Widget>[
+                  children: <Widget>[
                     const SpaceVertical(24),
                     const ColorCycler(),
                     const SpaceVertical(4),
@@ -141,8 +142,8 @@ class Login extends StatelessWidget {
                         'Train your Brain',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
-                          fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                             height: 1,
                             color: Colors.black),
                       ),

@@ -5,6 +5,7 @@ class LoginProvider extends ChangeNotifier {
   final _smartAuth = SmartAuth();
   final SharedPreferencesImpl _preferencesImpl;
   final CollectionReference<User> _userRef;
+  final CollectionReference<Question> _quesRef;
 
   /// input fields
   late final name = TextEditingController();
@@ -13,7 +14,7 @@ class LoginProvider extends ChangeNotifier {
   late bool passShowValue = false;
   late bool isSignUp = false;
 
-  LoginProvider(this._preferencesImpl, this._userRef) {
+  LoginProvider(this._preferencesImpl, this._quesRef, this._userRef) {
     logit("Created");
     _smartAuth
         .getCredential(
@@ -74,7 +75,7 @@ class LoginProvider extends ChangeNotifier {
       Fluttertoast.showToast(msg: 'Please enter password');
       return;
     }
-    if (await _preferencesImpl.loginUser(email, pass, _userRef)) {
+    if (await _preferencesImpl.loginUser(email, pass, _userRef, _quesRef)) {
       _smartAuth.saveCredential(
           id: Constants.accType, name: email, password: pass);
       if (context.mounted) {

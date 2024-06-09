@@ -26,8 +26,8 @@ class DurationMillisConverter implements JsonConverter<Duration, int> {
 @JsonSerializable()
 class Question {
   /// doc ref
-  // @JsonKey(includeFromJson: true, includeToJson: false)
-  // final String id;
+  @JsonKey(includeFromJson: true, includeToJson: false)
+  final String id;
 
   /// meeting duration, to be showed as 1h or 30m
   /// [AddEventController.duration]
@@ -42,7 +42,7 @@ class Question {
   final Map<String, bool> choic;
   factory Question.fromJson(Map<String, dynamic> json) => _$QuestionFromJson(json);
 
-  Question(this.text, this.choic);
+  Question(this.text, this.choic, this.id);
 
   Map<String, dynamic> toJson() => _$QuestionToJson(this);
 
